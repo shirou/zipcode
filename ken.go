@@ -1,5 +1,5 @@
 // KEN_ALL.CSVパーサ。
-package zipcode // import "lufia.org/pkg/japanese/zipcode"
+package zipcode
 
 // 県=pref
 // 市=city
