@@ -95,20 +95,28 @@ func (f entryExpanderFunc) Parse(c <-chan interface{}, c1 chan<- interface{}) {
 		}
 
 		// Town.Textには複数書式を持つが、Town.Rubyには複数部分を省略しているケースがある。
-		if len(a1) > 1 && len(a2) == 1 {
-			a3 := make([]string, len(a1))
-			for i := 0; i < len(a1); i++ {
+		len_a1 := len(a1)
+		len_a2 := len(a2)
+		if len_a1 > 1 && len_a2 == 1 {
+			a3 := make([]string, len_a1)
+			for i := 0; i < len_a1; i++ {
 				a3[i] = a2[0]
 			}
 			a2 = a3
 		}
-		if len(a1) != len(a2) {
+		if len_a1 != len_a2 {
 			// TODO
 		}
 		for i, _ := range a1 {
 			entry1 := new(Entry)
 			*entry1 = *entry
-			entry1.Town = Name{a1[i], a2[i]}
+			entry1.Town = Name{Text: a1[i]}
+			if len_a2-1 < i {
+				continue
+			}
+			if len_a2 > 0 {
+				entry1.Town.Ruby = a2[i]
+			}
 			c1 <- entry1
 		}
 	}
